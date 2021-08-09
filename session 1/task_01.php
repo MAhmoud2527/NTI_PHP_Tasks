@@ -1,3 +1,12 @@
+<!-- 
+    *TASK 01*
+    -Write a simple calculator program in PHP using switch case.
+    Operations:
+    Addition
+    Subtraction
+    Multiplication
+    Division
+ -->
 <?php
 echo "<h1>Task 1 (8/8/2021)</h1>";
 $first_num = 15;
