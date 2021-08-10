@@ -31,6 +31,6 @@ function calculate_electricity_bill($units)
 
         $bill = $temp + ($remaining_units * $third_unit_cost);
     }
-    return $bill;
+    return number_format((float)$bill, 2, '.', ''); // ($num , $decimals , $decimal_separator , $thousands_separator)
 }
-echo calculate_electricity_bill(50); // Static Value
+echo calculate_electricity_bill(50); //  (50) Static Value
