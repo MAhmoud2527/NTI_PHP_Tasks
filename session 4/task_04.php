@@ -7,6 +7,8 @@ password = [required,min = 6]
 address = [required,length = 10 chars]
 gender = [required]
 linkedin url = [reuired | url]
+Upload File = [required]
+------- write all form value in file text --------
  -->
 
 <!-- PHP CODE -->
@@ -141,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
     <div class="container">
-        <h2 class="text-center">Task 3 ( Form Validation) </h2>
+        <h2 class="text-center">Task 4 ( Form Validation) </h2>
         <br>
         <form class="form-horizontal" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" enctype="multipart/form-data">
             <div class="form-group">
@@ -284,8 +286,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo 'Your Linkedin URL : ' . $linked_url . '<br>';
             echo 'Image Name : ' . $imgName . '<br>';
         }
-
-
         ?>
         <br>
         <br>
