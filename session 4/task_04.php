@@ -1,4 +1,4 @@
-<!--  Task 3 -->
+<!--  Task 4 -->
 <!--  Create a form with the following inputs (name, email, password, address, gender, linkedin url) Validate inputs then return message to user . 
 * validation rules ... 
 name  = [required , string]
