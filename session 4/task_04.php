@@ -96,15 +96,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors)) {
-        $myfile = fopen("UserInfo.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, 'Your name is : ' . $name . ' ');
-        fwrite($myfile, 'Your Email is : ' . $email . ' ');
-        fwrite($myfile, 'Your Password is : ' . $hashPass . ' ');
-        fwrite($myfile, 'Your Address is : ' . $address . ' ');
-        fwrite($myfile, 'Your Gender is : ' . $gender . ' ');
-        fwrite($myfile, 'Your Linked URL is : ' . $linked_url . ' ');
-        fwrite($myfile, 'Your Image Name is : ' . $imgName . ' ');
+        $myfile = fopen("UserInfo.txt", "a") or die("Unable to open file!");
+        fwrite($myfile, ' - Your name is : ' . $name . "\n");
+        fwrite($myfile, ' - Your Email is : ' . $email . "\n");
+        fwrite($myfile, ' - Your Password is : ' . $hashPass . "\n");
+        fwrite($myfile, ' - Your Address is : ' . $address . "\n");
+        fwrite($myfile, ' - Your Gender is : ' . $gender . "\n");
+        fwrite($myfile, ' - Your Linked URL is : ' . $linked_url . "\n");
+        fwrite($myfile, ' - Your Image Name is : ' . $imgName . "\n\n");
         fclose($myfile);
+        // $gender = '';
     } else {
         $name = checkCode($_POST['name']);
         $email = checkCode($_POST['email']);
@@ -220,8 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group">
                 <label class="control-label col-sm-2" for="address">Gender:</label>
                 <div class="col-sm-10">
-                    <label class="radio-inline"><input type="radio" name="gender" value="Male">Male</label>
-                    <label class="radio-inline"><input type="radio" name="gender" value="Female">Female</label>
+                    <label class="radio-inline"><input type="radio" name="gender" value="Male" <?php echo ($gender == 'Male') ? 'checked' : '' ?>>Male</label>
+                    <label class="radio-inline"><input type="radio" name="gender" value="Female" <?php echo ($gender == 'Female') ? 'checked' : '' ?>>Female</label>
                     <br>
                     <small class="error">
                         <?php
