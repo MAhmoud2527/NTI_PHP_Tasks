@@ -1,22 +1,19 @@
 <?php
 require '../include/conn.php';
 // get data from database
-$sql2 = "SELECT * FROM post";
+$sql2 = "SELECT * FROM users";
 $op = mysqli_query($conn, $sql2);
-$folder = '../uploads/';
-
+echo  $_SESSION['user']['name'];
 ?>
 <?php include '../include/header.php'; ?>
 <div class="container">
     <h1>Read User</h1>
-    <a href="add.php" class="btn btn-primary">Add New User</a>
     <table class="table">
         <thead>
             <tr>
                 <th>#</th>
-                <th>image</th>
-                <th>Title</th>
-                <th>Content</th>
+                <th>Name</th>
+                <th>email</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -24,12 +21,10 @@ $folder = '../uploads/';
             <?php while ($git_data = mysqli_fetch_assoc($op)) { ?>
                 <tr>
                     <td><?php echo $git_data['id']; ?></td>
-                    <td><img src="<?php echo $folder . $git_data['image']; ?>" alt="" width="50px"></td>
                     <td><?php echo $git_data['name']; ?></td>
-                    <td><?php echo $git_data['content']; ?></td>
+                    <td><?php echo $git_data['email']; ?></td>
                     <td>
-                        <a href="edit.php?id=<?php echo $git_data['id']; ?>" class="btn btn-primary">Edit</a>
-                        <a href="delete.php?id=<?php echo $git_data['id']; ?>" class="btn btn-danger">Delete</a>
+                        <a href="edit.php?id=<?php echo $git_data['id']; ?>" class="btn btn-primary">Change Password</a>
                     </td>
 
                 </tr>

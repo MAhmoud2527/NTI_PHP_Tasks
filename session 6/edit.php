@@ -1,5 +1,5 @@
 <?php
-require 'conn.php';
+require '../include/conn.php';
 function checkCode($str)
 {
     $str = trim($str);
@@ -7,8 +7,12 @@ function checkCode($str)
     $str = stripslashes($str);
     return $str;
 }
-$name = $email = $password = $address = $linked_url = $gender = $imgName =  "";
-$errors = ['name' => '', 'email' => '', 'password' => '', 'address' => '', 'gender' => '', 'url' => '', 'image' => ''];
+$id = $_GET['id'];
+$sql = "SELECT * FROM `post` WHERE  id = $id";
+$result = mysqli_query($conn, $sql);
+$data = mysqli_fetch_assoc($result);
+$filename = '../uploads/';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = checkCode($_POST['name']);
     $content = checkCode($_POST['address']);
@@ -54,11 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors)) {
-        // insert data
-        $sql = "INSERT INTO post (name , content , image ) VALUES ('$title' , '$content' , '$finalName')";
+        $sql = "UPDATE `post` SET `name`='$title',`content`='$content',`image`='$finalName' WHERE id = $id";
         $result = mysqli_query($conn, $sql);
         if ($result) {
-            echo "One row inserted";
+            $imageName = $data['image'];
+            $finalPath = $folder . $imageName;
+            unlink($finalPath); // Delete image from Folder
+            header("Location: all.php");
         }
     }
 }
@@ -73,17 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php include '../include/header.php'; ?>
 
 <div class="container">
-    <h2 class="text-center">Task 6 ( Crud Operation ) </h2>
+    <h2 class="text-center">Edit ( Crud Operation ) </h2>
     <br>
-    <form class="form-horizontal" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" enctype="multipart/form-data">
+    <form class="form-horizontal" method="POST" action="edit.php?id=<?php echo $_GET['id']; ?>" enctype="multipart/form-data">
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Title</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="name" placeholder="Enter title" name="name" value="<?php
-                                                                                                                if (!empty($errors)) {
-                                                                                                                    echo $name;
-                                                                                                                }
-                                                                                                                ?>">
+                <input type="text" class="form-control" id="name" placeholder="Enter title" name="name" value="<?php echo $data['name']; ?>">
                 <small class="error">
                     <?php
                     if (isset($errors['name'])) {
@@ -96,11 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="form-group">
             <label class="control-label col-sm-2" for="address">content</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="address" placeholder="Enter a content" name="address" value="<?php
-                                                                                                                            if (!empty($errors)) {
-                                                                                                                                echo $address;
-                                                                                                                            }
-                                                                                                                            ?>">
+                <input type="text" class="form-control" id="address" placeholder="Enter a content" name="address" value="<?php echo $data['content']; ?>">
 
                 <small class="error">
                     <?php
@@ -130,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">Edit</button>
             </div>
         </div>
     </form>
