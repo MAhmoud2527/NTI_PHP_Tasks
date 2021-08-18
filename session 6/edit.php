@@ -7,11 +7,11 @@ function checkCode($str)
     $str = stripslashes($str);
     return $str;
 }
+
 $id = $_GET['id'];
 $sql = "SELECT * FROM `post` WHERE  id = $id";
 $result = mysqli_query($conn, $sql);
 $data = mysqli_fetch_assoc($result);
-$filename = '../uploads/';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = checkCode($_POST['name']);
@@ -48,22 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Check Before Upload 
     if (in_array($exection, $exectionArray)) {
         if (move_uploaded_file($name_temp, $finalImageName)) {
-            //    Code ..
-            $imgName =  $finalName;
-        } else {
-            $errors['image'] = 'File Not Uploaded Try Again';
+            unlink($finalPath); // Delete image from Folder
         }
     } else {
-        $errors['image'] = 'Please Select a Photo';
+        $finalName =  $data['image']; // Set old Value For image
+        // var_dump($finalName);
     }
 
     if (empty($errors)) {
+
         $sql = "UPDATE `post` SET `name`='$title',`content`='$content',`image`='$finalName' WHERE id = $id";
         $result = mysqli_query($conn, $sql);
         if ($result) {
-            $imageName = $data['image'];
-            $finalPath = $folder . $imageName;
-            unlink($finalPath); // Delete image from Folder
             header("Location: all.php");
         }
     }
